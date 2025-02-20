@@ -17,7 +17,7 @@ public class PostService {
             return null;
         }
 
-        Post newPost = new Post(++postCounter, author, content);
+        Post newPost = new Post(author, content);
         posts.put(newPost.getId(), newPost);
         author.getPosts().add(newPost);
         System.out.println(author.getName() + "created new post " + content);
@@ -29,5 +29,51 @@ public class PostService {
         return posts.get(id);
     }
 
-    
+    public void addComment(int postId, User commenter, String content) {
+        Post post = getPostByID(postId);
+        if (post == null) {
+            System.out.println("Post with ID: " + postId + " not found");
+            return;
+        }
+
+        Comment comment = new Comment(content, commenter); // Використовується ваш клас Comment
+        post.addComment(comment);
+        System.out.println(commenter.getName() + " commented on post with id " + postId + ": " + content);
+    }
+
+    public void addLikes(int postId, User user) {
+        Post post = getPostByID(postId);
+        if (post == null) {
+            System.out.println("Posr with id: " + postId + "not found");
+            return;
+        }
+
+        Like like = new Like(user);
+        post.addLikes(like);
+    }
+
+    public void listUsersPost(User author) {
+        if (author == null || author.getPosts().isEmpty()) {
+            System.out.println("No posts found for this user.");
+            return;
+        }
+
+        System.out.println("Posts by " + author.getName() + ":");
+        for (Post post : author.getPosts()) {
+            System.out.println("Post ID: " + post.getId() + ", Content " + post.getContent() + ", Likes " + post.getLikeCount());
+        }
+    }
+
+    public void deletePost(int postId, User author) {
+        Post post = getPostByID(postId);
+        if (post == null || !post.getAuthor().equals(author)) {
+            System.out.println("Cannot delete post: Either post not found or you are not the author.");
+            return;
+        }
+
+        posts.remove(postId);
+        author.getPosts().remove(post);
+        System.out.println("Post ID " + postId + "has been deleted");
+
+    }
 }

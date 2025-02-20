@@ -9,7 +9,7 @@ public class UserService {
 
     private final Map<Integer, User> users = new HashMap<>();
 
-    public void assUser(User user) {
+    public void addUser(User user) {
         if (!users.containsKey(user.getId())) {
             users.put(user.getId(), user);
             System.out.println("User" + user.getName() + " added successfully");
@@ -45,13 +45,8 @@ public class UserService {
 
     }
 
-    public void listAllUsers() {
-        if (users.isEmpty()) {
-            System.out.println("No users available ");
-        }
-        else {
-            users.values().forEach(user -> System.out.println("ID: " + user.getId() + ", Name: " + user.getName()));
-        }
+    public List<User> getAllUsers() {
+        return new ArrayList<>(users.values());
     }
 
 }

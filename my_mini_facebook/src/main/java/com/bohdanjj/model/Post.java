@@ -1,5 +1,5 @@
 package com.bohdanjj.model;
-import javax.xml.stream.events.Comment;
+import com.bohdanjj.model.Comment;
 import java.util.*;
 
 
